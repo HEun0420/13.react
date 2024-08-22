@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        // 두가지 기능을 리액트할거고
+        const { useState, useEffect } = React;
+
+        // 타이핑게임을 할건데, text와 isDone과 setIsDone 3가지가 있고
+        function TypingGame({ text, isDone, setIsDone }) {
+
+            //useState는 입력한 내용들
+            const [input, setInput] = useState('');
+
+            // 후처리 useEttect는 클리어시간을 나탄내기 위해서 start와 end 시간이 필요해
+            useEffect(
+                () => {
+                    const start = new Date().getTime();
+
+                    return () => {
+                        const end = new Date().getTime();
+
+                        const interval = end - start;
+
+                        alert(`${ interval } (ms)`);
+                    }
+                },
+                []
+            );
+
+            // 엔터를 누르면 만일 text랑 input이 같다면 //setIsDone(!isDone<-true)
+            // 왜냐하면 우리는 setIsDone을 useState(false)라고 했기에
+            const onKeyPressHandler = (e) => {
+                if(e.key == 'Enter') {
+                    if(text === input) {
+                        setIsDone(!isDone);
+                    }
+                }
+            }
+
+            return (
+                <>
+                    <h1>{ text }</h1>
+                    <input 
+                        type="text" 
+                        onChange={ (e) => setInput(e.target.value) } 
+                        onKeyPress={ onKeyPressHandler }
+                        value={ input }
+                    />
+                </>
+            );
+        }
+
+        function App() {
+            // false로 설정했고
+            const [isShow, setIsShow] = useState(false);
+            const [isDone, setIsDone] = useState(false);
+            const [text, setText] = useState('');
+
+            useEffect(
+                () => {
+                    setText(prompt('문자열을 입력해주세요'));
+                },
+                []
+            );
+
+            useEffect(
+                () => {
+                    setIsShow(!isShow);
+                },
+                [isDone]
+            );
+
+            return (
+                <>
+                    { isShow && <TypingGame text={ text } isDone={ isDone } setIsDone={ setIsDone }/> }
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+    </script>
+</body>
+</html>
