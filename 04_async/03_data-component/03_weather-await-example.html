@@ -55,7 +55,7 @@
                     case 'Atomsphere' : imojiName= 'airplane'; break;
                     case 'Mist' : imojiName= 'cloud_with_rain'; break;
                 }
-                const response = await fetch('https://api.github.com/emojis');;
+                const response = await fetch('https://api.github.com/emojis');
                 const json = await response.json();
                 console.log(json);
                 setImojiUrl(json[imojiName]);
