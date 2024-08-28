@@ -11,7 +11,7 @@ function MyPage(){
             - useNavigate와 같지만, 함수식으로 사용할지, 컴포넌트 형태로 사용할지에 따라
             useNavigate와 Navigate 중에 선택하면 된다.
         */
-        return <Navigate to= "/login"/>
+        return <Navigate to= "/login"/> // 컴포넌트형
     }
     return(
         <>

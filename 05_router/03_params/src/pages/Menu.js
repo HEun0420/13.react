@@ -29,7 +29,7 @@ function Menu() {
 
     const onClickHandler = () => {
         // console.log(searchValue);
-        navigate(`/menu/search?menuName=${searchValue}`);
+        navigate(`/menu/search?menuName=${searchValue}`); // 함수형
         
     }
 
