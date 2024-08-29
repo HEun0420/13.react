@@ -26,27 +26,79 @@
         /* 액션 */
         // 액션 타입을 상수(count)로 지정하고, 접두사 뒤에 동사형(increase)으로 붙여준다.
         const INCREMENT = 'count/INCREASE'; // 동사형으로 표현
-        const DECREMNET = 'count/DECREASE';
+        const DECREMENT = 'count/DECREASE';
 
         // 1. createActions 사용
-        const increase = createAction(INCREMENT, (amount) => ({incrementValue: amount}))
-        const decrease = createAction(DECREMNET, (amount) => ({decrementValue: amount}))
+        // const increase = createAction(INCREMENT, (amount) => ({incrementValue: amount}))
+        // const decrease = createAction(DECREMNET, (amount) => ({decrementValue: amount}))
 
         // increase에 넘겨주는 값이 amount로 들어간다.
-        console.log(increase(3)); // action 객체
-        console.log(decrease(4));
+        // console.log(increase(3)); // action 객체
+        // console.log(decrease(4));
+        
+        // 2. createActions 사용
+
+        /*
+            한번의 createActions 호출로 payload 객체를 반환하는 메소드들을 한번에 정의할 수 있다.
+        */
+
+        // const action = createActions({
+        //     [INCREMENT]: (amount = 1) => ({incrementValue: amount}),
+        //     [DECREMNET]: (amount = 1) => ({decrementValue: amount}),
+        // })
+
+        // console.log(action);
+        // console.log(action.count.increase());
+        
+        // 이중으로 구조분해할당을 할 수 있다.
+        const {count: {increase, decrease}} = createActions({
+            ['count/INCREASE']: (amount = 1) => ({incrementValue: amount}),
+            ['count/DECREASE']: (amount = 1) => ({decrementValue: amount}),
+        })
+
+        console.log(increase());
+        console.log(decrease());
         
         
 
         /* 리듀서 */
 
+        // 3. handleAction 사용
+        // swich문을 사용하지 않고 action에 따라 state를 처리하는 리듀서 생성
+        const reducer = handleActions(
+            {
+                // [INCREMENT]: (state, action) ={
+                //     return state+ action.payload.incrementValue;
+                [INCREMENT]: (state, {payload: {incrementValue}}) => {
+                    return state + incrementValue;
+                },
+                [DECREMENT]: (state, {payload: {decrementValue}}) => {
+                    return state - decrementValue;
+                },
+            },
+            initialState
+        )
+
         /*---------------------------------------------------------*/
 
         /* 컴포넌트 */
         function App() {
+
+            const count = useSelector(state => state);
+            const dispatch = useDispatch();
+
+            const increaseCount = () =>{
+                dispatch(increase());
+            }
+
+            const decreaseCount = () =>{
+                dispatch(decrease());
+            }
             return(
                 <>
-                    <h1>얍</h1>
+                    <h1>Count: {count}</h1>
+                    <button onClick = {increaseCount}>증가</button>
+                    <button onClick = {decreaseCount}>감소</button>
                 </>
             )
         }
@@ -54,8 +106,10 @@
         /*----------------------------------------------------------*/
 
         /* 스토어 */
-        
-        ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+        const store = createStore(reducer);
+
+        ReactDOM.createRoot(document.getElementById('root')).render(
+            <Provider store = {store}><App/></Provider>);
     </script>
 </body>
 </html>
