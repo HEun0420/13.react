@@ -27,6 +27,33 @@
             - 변경은 오로지 순수함수로만 가능하다.
         */
 
+        /*
+            액션(Action): 상태를 변경하려는 의도를 나타내는 행동입니다. 어떠한 목적으로 어떻게 변경하기 위해 상태에 접근하는지 정의하는 행동을 Action이라함. 
+            2가지 properties를 가진다. 
+            type: 필스 프로퍼티로 행동 목적을 담은 문자열 형식 // payload: 선택 프로퍼티로 type을 통해 정의한 행동과 관련된 데이터를 담음
+                    payload란 전송되는 데이터 자체를 의미
+
+
+            리듀서(Reducer): 기존 상태를 전달 받은 액션을 참고해서 새로운 상태를 반환합니다.
+
+
+            스토어(Store): 애플리케이션의 상태를 저장합니다.
+
+            디스패치(Dispatch): 액션을 발생시킵니다. 액션의 형태를 지시하는 type 속성을 가짐
+
+            구독(Subscribe): Store를 주시하고 있다가 액션이 디스패치 될 때 전달해 준 함수를 호출합니다.
+
+            Redux에서는 Action → Dispatch → Reducer → Store 
+
+
+            Redux를 사용하는 프로젝트는 단 하나의 Store만 가질 수 있습니다.
+            <Provider>를 사용하여 최상위 루트 컴포넌트를 감싸주어야 합니다. App 컴포넌트를 <Provider>로 감싼 후 Store를 연결
+
+
+            createStore()함수는 Store 객체를 반환
+            getState(): 애플리케이션의 현재 상태 트리를 반환하며 Store에 저장된 상태 정보를 가져오는 데 사용
+        */
+
         const { createStore } = Redux;
         /*
             action은 스토어에 운반할 데이터를 말하며 주문서와 비슷한 개념이다.
